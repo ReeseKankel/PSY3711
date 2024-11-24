@@ -1,0 +1,147 @@
+---
+title: "PSY3711 Fairness & Bias Exercise"
+author: "Reese Kankel"
+date: "2024-11-20"
+output: html_document
+---
+
+```{r}
+# X Group
+xPredictorScore <- c(9,8,8,6,4,4,3,2)
+xPerformance <- c(9.5, 8, 7.5, 7, 5, 5.5, 3, 3)
+
+# O Group
+oPredictorScore <- c(8, 6, 4, 4, 3, 3, 2, 1)
+oPerformance <- c(2, 8, 1, 6, 5.5, 7.5, 3, 4)
+
+# This automatically puts them both into long format, making it easier to differentiate groups when the graphs overlap
+GroupX <- data.frame(PredictorScore = xPredictorScore, Performance = xPerformance, Group = "GroupX")
+GroupO <- data.frame(PredictorScore = oPredictorScore, Performance = oPerformance, Group = "GroupO")
+
+#To combine the vectors
+PSY3711 <- rbind(GroupX, GroupO)
+
+#To make the graph
+library(ggplot2)
+ggplot(PSY3711, aes(PredictorScore, Performance, color = Group)) + 
+  geom_point() +
+  labs(title = "PSY3711 Fairness and Bias Exercise (X & O Groups)", 
+       x = "Predictor Score", 
+       y = "Performance") + 
+  theme_classic() + 
+  geom_smooth(method = "lm", se = FALSE) + 
+  scale_x_continuous(breaks = seq(0, 10, by = 1), 
+                     limits = c(0, 10)) +  
+  scale_y_continuous(breaks = seq(0, 10, by = 1), 
+                     limits = c(0, 10)) + geom_smooth(aes(color = "Joint Regression Line", group = 1), method = "lm", se = FALSE)
+
+```
+
+Problem Set 1: X & O Groups
+
+1) Is there a difference between the groups on the predictor (average score on predictor)?
+
+Yes, there are mean differences between groups on the predictor. Using the regression lines as an approximation, the mean of predictor score of Group X is is 5.5, and the mean predictor score of Group O is 4.25
+
+2) Do the data suggest that there is differential validity?
+
+```{r}
+cor(oPredictorScore, oPerformance)
+cor(xPredictorScore, xPerformance)
+```
+Yes, the data suggests that there is differential validity. The test is valid for Group X but not for Group O. Larger predictor scores for Group X are associated with higher levels of performance. However, for Group O, there is little association between predictor scores and performance. In fact, there is actually a small negative association between Group O's predictor scores and subsequent performance. 
+
+3) Do the data suggest that there is test bias?
+
+No, the data does not suggest test bias. While the test is not a valid predictor for Group O, it does not consistently over- or under-predict their scores.
+
+4) For the X group, what is the average performance for those people getting an 8 on the predictor?
+
+The average performance in the X group for those getting an 8 on the predictor is around 8
+
+5) For the O group, what is the average performance for those people getting an 8 on the predictor?
+
+The average performance in the O group for those getting an 8 on the predictor is 4.5
+
+6) For the X group, what is the average performance for those people getting a 4 on the predictor?
+
+The average performance in the X group for those getting an 4 on the predictor is 4.75
+
+7) For the O group, what is the average performance for those people getting a 4 on the predictor?
+
+The average performance in the O group for those getting a 4 on the predictor is also 4.75
+
+8) What do the comparisons between groups at scores 4 and 8 tell us?
+
+The comparisons between groups at these scores tells us that the test is a more valid predictor of future performance for Group X than Group O. For Group X, higher scores on the predictor correspond to higher subsequent performance.
+
+
+# Problem Set 2: A & B Groups
+```{r}
+# A Group
+aPredictorScore <- c(9,7,7,6,4,4,3,2)
+aPerformance <- c(9.5,7.75,7.25,6.5,4.5,4.25,3.75,2)
+
+# B Group
+bPredictorScore <- c(7,5,3,3,2,2,1,0)
+bPerformance <- c(7.5,5.5,3.5,4.25,1.75,2,1.5,.5)
+
+#Combining predictor and perforamnce for teh groups
+aGroup <- data.frame(PredictorScore = aPredictorScore, Performance = aPerformance, Group = "GroupA")
+bGroup <- data.frame(PredictorScore = bPredictorScore, Performance = bPerformance, Group = "GroupB")
+
+#combing the group scores into one dataframe
+part2PSY3711 <- PSY3711 <- rbind(aGroup, bGroup)
+
+# To make the graph
+ggplot(part2PSY3711, aes(PredictorScore, Performance, color = Group)) + 
+  geom_point() +
+  labs(title = "PSY3711 Fairness and Bias Exercise (X & O Groups)", 
+       x = "Predictor Score", 
+       y = "Performance") + 
+  theme_classic() + 
+  geom_smooth(method = "lm", se = FALSE) + 
+  scale_x_continuous(breaks = seq(0, 10, by = 1), 
+                     limits = c(0, 10)) + 
+  scale_y_continuous(breaks = seq(0, 10, by = 1), 
+                     limits = c(0, 10))
+```
+
+1) Is there a difference between the groups on the predictor (average score on predictor)?
+
+Yes, there is a difference between groups on the predictor. On average, Group A gets higher scores on the predictor. Using the regression line as an approximation, the mean of Group A is about 5.25, and the mean of Group B is about 3.5
+
+2) Do the data suggest that there is differential validity?
+
+No. For both the A and B groups, higher predictor scores are associated with higher levels of performance. The correlation between Group A's predictor scores and performance is 0.9950616, and for group B it's 0.9829699.
+
+```{r}
+cor(aPredictorScore, aPerformance)
+#correlation between A group's predictor scores and performance is 0.9950616
+cor(bPredictorScore, bPerformance)
+#correlation between B group's predictor scores and performance is 0.9829699
+```
+
+3) Do the data suggest that there is test bias?
+
+Yes, the data suggests test bias as on average, Group O does worse than the joint regression line would predict
+
+4) For the A group, what is the average performance for those people getting an 8 on the predictor?
+
+For the A group, the average performance for those getting an 8 on the predictor is also 8.25
+
+5) For the B group, what is the average performance for those people getting an 8 on the predictor?
+
+For the B group, the average performance for those getting an 8 on the predictor is also 8.25
+
+6) For the A group, what is the average performance for those people getting a 4 on the predictor?
+
+For the A group, the average performance for those getting a 4 on the predictor is 4.25
+
+7) For the B group, what is the average performance for those people getting a 4 on the predictor?
+
+For the B group, the average performance for those getting a 4 on the predictor is also 4.25
+
+8) What do the comparisons between groups at predictor scores 4 and 8 tell us?
+
+The comparisons between groups at these scores tells us that the predictor is valid for both groups across different scores. Higher scores on the predictor are associated with higher subsequent performance for both groups. Also, there is no bias as performance at all values of the predictor are the same between the groups
