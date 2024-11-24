@@ -53,7 +53,7 @@ Yes, the data suggests that there is differential validity. The test is valid fo
 
 3) Do the data suggest that there is test bias?
 
-No, the data does not suggest test bias. While the test is not a valid predictor for Group O, it does not consistently over- or under-predict their scores.
+Yes, the data suggests test bias as on average, Group O does worse than the joint regression line would predict
 
 4) For the X group, what is the average performance for those people getting an 8 on the predictor?
 
@@ -124,7 +124,7 @@ cor(bPredictorScore, bPerformance)
 
 3) Do the data suggest that there is test bias?
 
-Yes, the data suggests test bias as on average, Group O does worse than the joint regression line would predict
+No, the data does not suggest test bias. While there is an average group difference, higher predictor scores are associated with higher performance, right along the regression line.
 
 4) For the A group, what is the average performance for those people getting an 8 on the predictor?
 
